@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>SSE Demo</title></head>
+<body>
+<div id="msgFromSse"></div>
+<script>
+var source = new EventSource('http://localhost:8080/sse') //新建EventSource对象连接服务器的地址为/async/1/sse
+source.addEventListener('open', function (ev) { //监听连接成功的事件
+    console.log("连接成功")
+}, false);
+
+source.addEventListener('message', function (ev) { { //监听数据发送的事件
+    document.getElementById("msgFromSse").innerHTML = ev.data;
+} });
+
+
+source.addEventListener('error',function (ev) { //监听错误的事件
+    if (ev.readyState == EventSource.CLOSED){
+        console.log("连接毅关闭");
+    } else {
+        console.log(ev.readyState);
+    }
+}, false);
+</script>
+</body>
+</html>
